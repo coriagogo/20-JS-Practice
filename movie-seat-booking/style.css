@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #242333;
+  background-image: radial-gradient(#242333 30%, #485563 100%);
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -76,7 +76,7 @@ body {
   background-color: rgba(0,0,0,0.1);
   padding: 5px 10px;
   border-radius: 5px;
-  color: #777;
+  color: #fff;
   list-style-type: none;
   display: flex;
   justify-content: space-between;
