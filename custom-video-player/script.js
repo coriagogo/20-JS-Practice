@@ -7,9 +7,12 @@ const mute = document.getElementById('mute');
 const voldec = document.getElementById('voldec');
 const volinc = document.getElementById('volinc');
 
+
+var currentVolume = Math.floor(video.volume * 10) / 10;
+
 // Play and Pause video
 function toggleVideoStatus() {
-  if(video.paused) { 
+  if (video.paused) {
     video.play();
   } else {
     video.pause();
@@ -18,10 +21,10 @@ function toggleVideoStatus() {
 
 // Update Play/Pause icon
 function updatePlayIcon() {
-  if(video.paused) {
-    play.innerHTML = '<i class="fa fa-play fa-2x"></i>'
+  if (video.paused) {
+    play.innerHTML = '<i class="fa fa-play fa-2x"></i>';
   } else {
-    play.innerHTML = '<i class="fa fa-pause fa-2x"></i>'
+    play.innerHTML = '<i class="fa fa-pause fa-2x"></i>';
   }
 }
 
@@ -32,7 +35,7 @@ function updateProgress() {
 
   // Get minutes
   let mins = Math.floor(video.currentTime / 60);
-  if(mins < 10) {
+  if (mins < 10) {
     mins = '0' + String(mins);
   }
 
@@ -41,7 +44,7 @@ function updateProgress() {
   if (secs < 10) {
     secs = '0' + String(secs);
   }
-  timestamp.innerHTML = `${mins}:${secs}`
+  timestamp.innerHTML = `${mins}:${secs}`;
 }
 
 // Set video time to progress
@@ -63,8 +66,7 @@ function checkVolume(dir) {
       if (currentVolume < 1) {
         video.volume += 0.1;
       }
-    }
-    else if (dir === '-') {
+    } else if (dir === '-') {
       if (currentVolume > 0) {
         video.volume -= 0.1;
       }
@@ -77,17 +79,35 @@ function checkVolume(dir) {
   }
 }
 
-// Change the volume
-function alterVolume(dir) {
-  checkVolume(dir);
+// Increase volume
+function incVolume() {
+  if (currentVolume < 1) {
+    video.volume += 0.1;
+  }
 }
 
+// Decrease volume
+function decVolume() {
+  if (currentVolume > 0) {
+    video.volume -= 0.1;
+  }
+}
+
+// Mute volume
+function muteVolume() {
+  video.volume = 0;
+}
+
+// Restore volume
+function restoreVolume() {
+  video.volume = 0.5;
+}
 // Update mute/unmute
 function updateVolumeIcon() {
   if (video.muted) {
-    mute.innerHTML = '<i class="fa fa-volume-off fa-2x"></i>'
+    mute.innerHTML = '<i class="fa fa-volume-off fa-2x"></i>';
   } else {
-    mute.innerHTML = '<i class="fa fa-volume-up fa-2x"></i>'
+    mute.innerHTML = '<i class="fa fa-volume-up fa-2x"></i>';
   }
 }
 
@@ -97,6 +117,8 @@ video.addEventListener('pause', updatePlayIcon);
 video.addEventListener('play', updatePlayIcon);
 video.addEventListener('timeupdate', updateProgress);
 video.addEventListener('volumechange', checkVolume);
+video.addEventListener('mute', updateVolumeIcon);
+video.addEventListener('unmute', updateVolumeIcon);
 
 play.addEventListener('click', toggleVideoStatus);
 
@@ -104,6 +126,10 @@ stop.addEventListener('click', stopVideo);
 
 progress.addEventListener('change', setVideoProgress);
 
-volinc.addEventListener('click', alterVolume('+'));
+mute.addEventListener('click', muteVolume);
 
-voldec.addEventListener('click', alterVolume('-'));
+// unmute.addEventListener('click', restoreVolume);
+
+volinc.addEventListener('click', incVolume);
+
+voldec.addEventListener('click', decVolume);
