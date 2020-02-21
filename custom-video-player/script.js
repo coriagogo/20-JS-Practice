@@ -58,29 +58,9 @@ function stopVideo() {
   video.pause();
 }
 
-// Check the volume
-function checkVolume(dir) {
-  if (dir) {
-    var currentVolume = Math.floor(video.volume * 10) / 10;
-    if (dir === '+') {
-      if (currentVolume < 1) {
-        video.volume += 0.1;
-      }
-    } else if (dir === '-') {
-      if (currentVolume > 0) {
-        video.volume -= 0.1;
-      }
-    }
-    if (currentVolume <= 0) {
-      video.muted = true;
-    } else {
-      video.muted = false;
-    }
-  }
-}
-
 // Increase volume
 function incVolume() {
+  var currentVolume = Math.floor(video.volume * 10) / 10;
   if (currentVolume < 1) {
     video.volume += 0.1;
   }
@@ -88,13 +68,15 @@ function incVolume() {
 
 // Decrease volume
 function decVolume() {
-  if (currentVolume > 0) {
+  var currentVolume = Math.floor(video.volume * 10) / 10;
+  if (currentVolume >= 0.2) {
     video.volume -= 0.1;
   }
 }
 
 // Mute volume
 function muteVolume() {
+  
   video.volume = 0;
 }
 
@@ -116,7 +98,7 @@ video.addEventListener('click', toggleVideoStatus);
 video.addEventListener('pause', updatePlayIcon);
 video.addEventListener('play', updatePlayIcon);
 video.addEventListener('timeupdate', updateProgress);
-video.addEventListener('volumechange', checkVolume);
+// video.addEventListener('volumechange', checkVolume);
 video.addEventListener('mute', updateVolumeIcon);
 video.addEventListener('unmute', updateVolumeIcon);
 
