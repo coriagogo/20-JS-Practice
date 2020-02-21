@@ -22,7 +22,7 @@ h1 {
 .screen {
   cursor: pointer;
   width: 70%;
-  background-color: #000 !important;
+  background-color: #555 !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -45,7 +45,7 @@ h1 {
   cursor: pointer;
 }
 
-.controls .fa-play {
+/* .controls .fa-play {
   color: #28a745;
 }
 
@@ -55,10 +55,10 @@ h1 {
 
 .controls .fa-pause {
   color: #fff;
-}
+} */
 
 .controls .timestamp {
-  color: #fff;
+  color: #080808;
   font-weight: bold;
   margin-left: 10px;
 }

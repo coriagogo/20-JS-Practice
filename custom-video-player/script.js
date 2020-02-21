@@ -3,6 +3,9 @@ const play = document.getElementById('play');
 const stop = document.getElementById('stop');
 const progress = document.getElementById('progress');
 const timestamp = document.getElementById('timestamp');
+const mute = document.getElementById('mute');
+const voldec = document.getElementById('voldec');
+const volinc = document.getElementById('volinc');
 
 // Play and Pause video
 function toggleVideoStatus() {
@@ -38,7 +41,6 @@ function updateProgress() {
   if (secs < 10) {
     secs = '0' + String(secs);
   }
-
   timestamp.innerHTML = `${mins}:${secs}`
 }
 
@@ -53,14 +55,55 @@ function stopVideo() {
   video.pause();
 }
 
+// Check the volume
+function checkVolume(dir) {
+  if (dir) {
+    var currentVolume = Math.floor(video.volume * 10) / 10;
+    if (dir === '+') {
+      if (currentVolume < 1) {
+        video.volume += 0.1;
+      }
+    }
+    else if (dir === '-') {
+      if (currentVolume > 0) {
+        video.volume -= 0.1;
+      }
+    }
+    if (currentVolume <= 0) {
+      video.muted = true;
+    } else {
+      video.muted = false;
+    }
+  }
+}
+
+// Change the volume
+function alterVolume(dir) {
+  checkVolume(dir);
+}
+
+// Update mute/unmute
+function updateVolumeIcon() {
+  if (video.muted) {
+    mute.innerHTML = '<i class="fa fa-volume-off fa-2x"></i>'
+  } else {
+    mute.innerHTML = '<i class="fa fa-volume-up fa-2x"></i>'
+  }
+}
+
 // Event listeners
 video.addEventListener('click', toggleVideoStatus);
 video.addEventListener('pause', updatePlayIcon);
 video.addEventListener('play', updatePlayIcon);
 video.addEventListener('timeupdate', updateProgress);
+video.addEventListener('volumechange', checkVolume);
 
 play.addEventListener('click', toggleVideoStatus);
 
 stop.addEventListener('click', stopVideo);
 
-progress.addEventListener('change', setVideoProgress)
+progress.addEventListener('change', setVideoProgress);
+
+volinc.addEventListener('click', alterVolume('+'));
+
+voldec.addEventListener('click', alterVolume('-'));
